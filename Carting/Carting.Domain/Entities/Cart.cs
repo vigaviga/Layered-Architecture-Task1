@@ -6,7 +6,13 @@ namespace Carting.Carting.Domain.Entities
     public class Cart
     {
         [Required]
-        public int Id { get; set; }
+        public string Id { get; set; }
         public List<Item> Items { get; set; }
+
+        public Cart(string id)
+        {
+            Id = id;
+            Items = new List<Item>();
+        }
     }
 }

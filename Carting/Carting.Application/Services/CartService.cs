@@ -1,9 +1,9 @@
-﻿using Carting.Carting.Domain.Entities;
+﻿using Carting.Carting.Application.Interfaces;
+using Carting.Carting.Domain.Entities;
 using Carting.Carting.Domain.Models;
 using Carting.Carting.Services.Exceptions;
 using Carting.Carting.Services.Interfaces;
 using Carting.Carting.Shared;
-using Carting.DataAccessLayer.Interfaces;
 
 namespace Carting.Carting.Services.Services
 {
@@ -16,13 +16,17 @@ namespace Carting.Carting.Services.Services
             _cartRepository = cartRepository;
         }
 
-        public int AddItemToCart(int cartId, Item itemToAdd)
+        public async Task<string> AddItemToCart(string cartId, Item itemToAdd)
         {
-            var cart = _cartRepository.GetById(cartId);
+            var cart = await _cartRepository.GetById(cartId);
 
             if (cart == null)
             {
-                throw new EntityNotFoundException(Constants.CartNotFound);
+                cartId = Guid.NewGuid().ToString();
+                var cartToAdd = new Cart(cartId);
+                cartToAdd.Items.Add(itemToAdd);
+                await Create(cartToAdd);
+                return cartId;
             }
 
             var item = cart.Items.Find(i => i.Id == itemToAdd.Id);
@@ -37,40 +41,41 @@ namespace Carting.Carting.Services.Services
             return cart.Id;
         }
 
-        public int Create(Cart item)
+        public async Task<string> Create(Cart cart)
         {
-            bool cartExists = _cartRepository.GetById(item.Id) != null;
+            bool cartExists = await _cartRepository.GetById(cart.Id) != null;
             if (cartExists)
             {
                 throw new EntityWithGivenIdExistsException(Constants.CartWithGivenIdExists);
             }
 
-            return _cartRepository.Add(item);
+            return await _cartRepository.Add(cart);
         }
 
-        public void Delete(int id)
+        public async Task Delete(string id)
         {
-            _cartRepository.Remove(id);
+            await _cartRepository.Remove(id);
         }
 
-        public Cart Get(int id)
+        public async Task<Cart> Get(string id)
         {
-            return _cartRepository.GetById(id);
+            return await _cartRepository.GetById(id);
         }
 
-        public IEnumerable<Item> GetAllItems(int id)
+        public async Task<IEnumerable<Item>> GetAllItems(string id)
         {
-            return _cartRepository.GetById(id).Items;
+            var cart = await _cartRepository.GetById(id);
+            return cart.Items;
         }
 
-        public IEnumerable<Cart> GetAll()
+        public async Task<IEnumerable<Cart>> GetAll()
         {
-            return _cartRepository.GetAll();
+            return await _cartRepository.GetAll();
         }
 
-        public int RemoveItemFromCart(int cartId, int itemId)
+        public async Task<string> RemoveItemFromCart(string cartId, int itemId)
         {
-            var cart = _cartRepository.GetById(cartId);
+            var cart = await _cartRepository.GetById(cartId);
 
             if(cart == null)
             {
@@ -84,15 +89,15 @@ namespace Carting.Carting.Services.Services
             return cart.Id;
         }
 
-        public void Update(Cart cartToUpdate)
+        public async Task Update(Cart cartToUpdate)
         {
-            var cart = _cartRepository.GetById(cartToUpdate.Id);
+            var cart = await _cartRepository.GetById(cartToUpdate.Id);
 
             if (cart == null)
             {
                 throw new EntityNotFoundException(Constants.CartNotFound);
             }
-            _cartRepository.Update(cartToUpdate);
+            await _cartRepository.Update(cartToUpdate);
         }
     }
 }
