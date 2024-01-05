@@ -13,5 +13,7 @@ namespace Carting.Carting.Services.Interfaces
         Task<string> AddItemToCart(string cartId, Item item);
         Task<string> RemoveItemFromCart(string cartId, int itemId);
         Task<IEnumerable<Item>> GetAllItems(string cartId);
+
+        Task UpdateCartsGivenItem(Item item);
     }
 }

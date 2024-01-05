@@ -1,5 +1,6 @@
 ﻿using Carting.Carting.Application.Interfaces;
 using LiteDB;
+using Microsoft.AspNetCore.Mvc.TagHelpers;
 
 namespace Carting.DataAccessLayer.Services
 {
@@ -24,7 +25,7 @@ namespace Carting.DataAccessLayer.Services
             using (var db = new LiteDatabase(_databasePath))
             {
                 var collection = db.GetCollection<T>();
-                return collection.FindAll();
+                return collection.FindAll().ToArray();
             }
         }
 

@@ -4,6 +4,7 @@ using Carting.Carting.Domain.Models;
 using Carting.Carting.Services.Exceptions;
 using Carting.Carting.Services.Interfaces;
 using Carting.Carting.Shared;
+using Microsoft.OpenApi.Validations;
 
 namespace Carting.Carting.Services.Services
 {
@@ -99,6 +100,23 @@ namespace Carting.Carting.Services.Services
             }
             await _cartRepository.Update(cartToUpdate);
             return cart.Id;
+        }
+
+        public async Task UpdateCartsGivenItem(Item item)
+        {
+            var carts = await _cartRepository.GetAll();
+
+            foreach (var cart in carts)
+            {
+                for(int i = 0; i < cart.Items.Count; i++)
+                {
+                    if (cart.Items[i].Id == item.Id)
+                    {
+                        cart.Items[i] = item;
+                    }
+                }
+                await _cartRepository.Update(cart);
+            }
         }
     }
 }
