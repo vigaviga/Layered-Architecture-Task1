@@ -125,5 +125,27 @@ namespace Carting.Carting.API.Controllers.V2
                 return NotFound(ex.Message);
             }
         }
+
+        /// <summary>
+        /// Update cart entity
+        /// </summary>
+        /// <param name="cart">Cart entity to be updated.</param>
+        /// <returns>Id of a cart that got updated</returns>
+        [HttpPut]
+        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Update([Required] Cart cart)
+        {
+            try
+            {
+                var id = await _cartsService.Update(cart);
+                return Ok(id);
+            }
+            catch (EntityWithGivenIdExistsException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
     }
 }

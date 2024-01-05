@@ -89,7 +89,7 @@ namespace Carting.Carting.Services.Services
             return cart.Id;
         }
 
-        public async Task Update(Cart cartToUpdate)
+        public async Task<string> Update(Cart cartToUpdate)
         {
             var cart = await _cartRepository.GetById(cartToUpdate.Id);
 
@@ -98,6 +98,7 @@ namespace Carting.Carting.Services.Services
                 throw new EntityNotFoundException(Constants.CartNotFound);
             }
             await _cartRepository.Update(cartToUpdate);
+            return cart.Id;
         }
     }
 }
