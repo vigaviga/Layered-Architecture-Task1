@@ -9,6 +9,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using Polly;
+using Polly.Extensions.Http;
 
 namespace Carting.Kafka
 {
@@ -37,8 +39,15 @@ namespace Carting.Kafka
                                        .SetValueDeserializer(new AvroDeserializer<ItemUpdateEvent>(schemaRegistry).AsSyncOverAsync())
                                        .Build();
                             });
-
                             services.AddHostedService<ItemWorker>();
+                            services.AddHttpClient(HttpNamedClients.CartingClient,
+                                client =>
+                                {
+                                    client.BaseAddress = new Uri(hostContext.Configuration.GetRequiredSection("CartingApiUrl").Value);
+                                })
+                                .AddPolicyHandler(HttpPolicyExtensions
+                                                  .HandleTransientHttpError()
+                                                  .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(4)));
                         }).Build();
 
             await host.RunAsync();

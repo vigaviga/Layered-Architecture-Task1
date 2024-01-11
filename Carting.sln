@@ -5,7 +5,11 @@ VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carting", "Carting\Carting.csproj", "{27875F46-88F8-466E-A301-20ACB1982461}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Carting.Kafka", "Carting.Kafka\Carting.Kafka.csproj", "{AED09386-7E88-4583-9A68-30A9B3DB8B76}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carting.Kafka", "Carting.Kafka\Carting.Kafka.csproj", "{AED09386-7E88-4583-9A68-30A9B3DB8B76}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Carting.Domain", "Carting.Domain\Carting.Domain.csproj", "{7F586663-16A4-4FBB-97A5-640C8BA7E03C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Carting.Shared", "Carting.Shared\Carting.Shared.csproj", "{B9E27273-632C-4C21-8ADC-035261E8FE92}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{AED09386-7E88-4583-9A68-30A9B3DB8B76}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AED09386-7E88-4583-9A68-30A9B3DB8B76}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AED09386-7E88-4583-9A68-30A9B3DB8B76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F586663-16A4-4FBB-97A5-640C8BA7E03C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F586663-16A4-4FBB-97A5-640C8BA7E03C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F586663-16A4-4FBB-97A5-640C8BA7E03C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F586663-16A4-4FBB-97A5-640C8BA7E03C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9E27273-632C-4C21-8ADC-035261E8FE92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9E27273-632C-4C21-8ADC-035261E8FE92}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9E27273-632C-4C21-8ADC-035261E8FE92}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9E27273-632C-4C21-8ADC-035261E8FE92}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

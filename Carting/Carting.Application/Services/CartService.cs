@@ -118,5 +118,22 @@ namespace Carting.Carting.Services.Services
                 await _cartRepository.Update(cart);
             }
         }
+
+        public async Task<Item> GetCartsItem(int itemId)
+        {
+            var carts = await _cartRepository.GetAll();
+
+            foreach (var cart in carts)
+            {
+                for (int i = 0; i < cart.Items.Count; i++)
+                {
+                    if (cart.Items[i].Id == itemId)
+                    {
+                        return await Task.FromResult(cart.Items[i]);
+                    }
+                }
+            }
+            return null;
+        }
     }
 }

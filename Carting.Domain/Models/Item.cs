@@ -6,11 +6,13 @@ namespace Carting.Carting.Domain.Models
     {
         [Required]
         public int Id { get; set; }
+
         [Required]
         public string Name { get; set; }
-        public Image Image { get; set; }
+        public Image? Image { get; set; }
+
         [Required]
-        public int Price { get; set; }
+        public double Price { get; set; }
         public int Quantity { get; set; }
     }
 }

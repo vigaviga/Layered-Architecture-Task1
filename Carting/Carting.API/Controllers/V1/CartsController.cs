@@ -132,26 +132,5 @@ namespace Carting.Carting.API.Controllers.V1
                 return BadRequest(ex.Message);
             }
         }
-        
-        /// <summary>
-        /// Updates all carts with given item
-        /// </summary>
-        /// <param name="item">Item to update </param>
-        /// <returns>Result of action </returns>
-        [HttpPut("/item")]
-        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Update([Required] Item item)
-        {
-            try
-            {
-                await _cartsService.UpdateCartsGivenItem(item);
-                return Ok();
             }
-            catch(Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-    }
 }

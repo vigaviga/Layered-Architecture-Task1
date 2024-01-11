@@ -14,4 +14,9 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Carting.Domain\Carting.Domain.csproj" />
+    <ProjectReference Include="..\Carting.Shared\Carting.Shared.csproj" />
+  </ItemGroup>
+
 </Project>
