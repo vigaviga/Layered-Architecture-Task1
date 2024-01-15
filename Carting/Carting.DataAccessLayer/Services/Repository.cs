@@ -1,5 +1,6 @@
-﻿using Carting.DataAccessLayer.Interfaces;
+﻿using Carting.Carting.Application.Interfaces;
 using LiteDB;
+using Microsoft.AspNetCore.Mvc.TagHelpers;
 
 namespace Carting.DataAccessLayer.Services
 {
@@ -10,25 +11,25 @@ namespace Carting.DataAccessLayer.Services
         {
             _databasePath = databasePath;
         }
-        public int Add(T entity)
+        public async Task<string> Add(T entity)
         {
             using (var db = new LiteDatabase(_databasePath))
             {
                 var collection = db.GetCollection<T>();
-                return collection.Insert(entity).AsInt32;
+                return collection.Insert(entity).AsString;
             }
         }
 
-        public IEnumerable<T> GetAll()
+        public async Task<IEnumerable<T>> GetAll()
         {
             using (var db = new LiteDatabase(_databasePath))
             {
                 var collection = db.GetCollection<T>();
-                return collection.FindAll();
+                return collection.FindAll().ToArray();
             }
         }
 
-        public T GetById(int Id)
+        public async Task<T> GetById(string Id)
         {
             using (var db = new LiteDatabase(_databasePath))
             {
@@ -37,7 +38,7 @@ namespace Carting.DataAccessLayer.Services
             }
         }
 
-        public void Remove(int Id)
+        public async Task Remove(string Id)
         {
             using (var db = new LiteDatabase(_databasePath))
             {
@@ -46,7 +47,7 @@ namespace Carting.DataAccessLayer.Services
             }
         }
 
-        public void Update(T entity)
+        public async Task Update(T entity)
         {
             using (var db = new LiteDatabase(_databasePath))
             {
