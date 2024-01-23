@@ -4,11 +4,13 @@ using Carting.Carting.DataAccessLayer;
 using Carting.Carting.Domain.Entities;
 using Carting.Carting.Services.Interfaces;
 using Carting.Carting.Services.Services;
+using Carting.CustomMiddleware;
 using Carting.DataAccessLayer.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,6 +42,27 @@ builder.Services.AddVersionedApiExplorer(setup =>
     setup.SubstituteApiVersionInUrl = true;
 });
 
+builder.Services.AddAuthentication("Bearer")
+    .AddJwtBearer("Bearer", options =>
+    {
+        options.Authority = "https://localhost:5001";
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidAudience = "https://localhost:5001/resources",
+            ValidateIssuer = true,
+            ClockSkew = TimeSpan.Zero,
+        };
+    });
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("ApiScope", policy =>
+    {
+        policy.RequireAuthenticatedUser();
+        policy.RequireClaim("scope", "api1");
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -56,8 +79,11 @@ if (app.Environment.IsDevelopment())
     });
 }
 
+app.UseAuthentication();
+app.UseMiddleware<AccessTokenLoggingMiddleware>();
+
 app.UseAuthorization();
 
-app.MapControllers();
+app.MapControllers().RequireAuthorization();
 
 app.Run();
