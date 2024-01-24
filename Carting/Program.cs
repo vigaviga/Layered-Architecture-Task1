@@ -15,7 +15,7 @@ var builder = WebApplication.CreateBuilder(args);
 var liteDbConfig = builder.Configuration.GetSection("LiteDbStoragePath").Get<LiteDbOptions>();
 
 // Add services to the container.
-
+//test
 builder.Services.AddControllers();
 
 builder.Services.AddSingleton<IRepository<Cart>>(x => new Repository<Cart>(liteDbConfig.Path));
